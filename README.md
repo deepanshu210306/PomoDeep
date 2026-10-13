@@ -1,50 +1,75 @@
 # PomoDeep
 
-Pomodoro + study stopwatch app with tasks, themes, ambient effects, and MongoDB cloud sync.
+Desktop-first focus timer with Pomodoro sessions, an independent study stopwatch, tasks, ambient themes, and cloud sync.
 
-Built with **Next.js** — UI and API in one deploy (Vercel-ready).
+Built with **Next.js** — UI and API in one app, ready for a single Vercel deploy.
 
-## Local development
+## Features
+
+- **Pomodoro** — focus / short break / long break with timestamp-based timing
+- **Study stopwatch** — independent session timer with daily totals
+- **Study graph** — sidebar chart of past days (Study tab only)
+- **Tasks** — statuses (Backlog → Canceled), focus task, search & filters
+- **Themes** — backgrounds, accents, ambient effects (motes, stars, rain, bubbles)
+- **Custom media** — upload your own image or video background (max 5 MB)
+- **Music** — lofi tracks with ambient volume controls
+- **Streak & challenges** — daily focus tracking
+- **Accounts** — register / sign in; settings sync to MongoDB and reload on open
+
+## Stack
+
+Next.js 15 · React 19 · TypeScript · MongoDB (Mongoose) · JWT auth · Lucide · Sora + IBM Plex Mono
+
+## Setup
 
 ```bash
 npm install
-# Copy secrets
 cp .env.example .env.local
-# Fill MONGODB_URI, MONGODB_DB_NAME, JWT_SECRET
+```
 
+Fill in `.env.local`:
+
+| Variable | Description |
+|----------|-------------|
+| `MONGODB_URI` | MongoDB Atlas (or local) connection string |
+| `MONGODB_DB_NAME` | Database name (e.g. `pomo`) |
+| `JWT_SECRET` | Long random string for session tokens |
+
+```bash
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
 
-## Deploy on Vercel (single project)
-
-1. Push this repo to GitHub.
-2. Import the project on [vercel.com](https://vercel.com).
-3. Framework: **Next.js** (auto-detected).
-4. Add environment variables:
-   - `MONGODB_URI` — Atlas connection string
-   - `MONGODB_DB_NAME` — e.g. `pomo`
-   - `JWT_SECRET` — long random string
-5. Deploy.
-
-The frontend and `/api/*` auth routes ship together. No separate backend host needed.
-
-> Note: Vercel Hobby has a ~4.5 MB request body limit. Custom backgrounds up to 5 MB may need a smaller file or a paid plan.
-
-## What syncs to MongoDB
-
-When signed in:
-
-- Study stopwatch history (daily totals)
-- Tasks
-- Settings / theme
-- Custom image or video background (≤ 5 MB)
-
 ## Scripts
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Next.js dev server |
+| `npm run dev` | Dev server |
 | `npm run build` | Production build |
 | `npm start` | Run production build |
+| `npm run lint` | Lint with oxlint |
+
+## Deploy on Vercel
+
+One project — no separate backend.
+
+1. Push the repo to GitHub.
+2. Import on [vercel.com](https://vercel.com) (Next.js is auto-detected).
+3. Add the same env vars as `.env.local`.
+4. Deploy.
+
+Auth and data APIs live under `/api/auth/*` on the same domain.
+
+> **Note:** Vercel Hobby limits request bodies to ~4.5 MB. Custom backgrounds near 5 MB may need a smaller file or a higher plan.
+
+## Cloud sync (signed in)
+
+Saved to MongoDB and restored on login:
+
+- Study stopwatch history (per-day totals)
+- Tasks & focus task
+- Settings & theme
+- Custom image / video background (≤ 5 MB)
+
+Without an account, data stays in the browser (`localStorage` + IndexedDB for large media).
