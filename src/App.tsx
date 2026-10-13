@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { AuthProvider } from './auth/AuthContext';
 import { AmbientEffects } from './components/AmbientEffects';
 import { AudioPlayer } from './components/AudioPlayer';
@@ -17,7 +18,28 @@ import { TasksPanel } from './components/panels/TasksPanel';
 import { AppProvider, useApp } from './store/AppContext';
 
 function Workspace() {
-  const { panel, toast, view } = useApp();
+  const { panel, setPanel, toast, view } = useApp();
+
+  // Close sidebar panels when clicking empty space (outside panel / sidebar)
+  useEffect(() => {
+    if (!panel) return;
+
+    const onPointerDown = (e: PointerEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+      if (
+        target.closest(
+          '.panel, .sidebar, .status-menu, .auth-modal, .auth-backdrop, .toast',
+        )
+      ) {
+        return;
+      }
+      setPanel(null);
+    };
+
+    window.addEventListener('pointerdown', onPointerDown);
+    return () => window.removeEventListener('pointerdown', onPointerDown);
+  }, [panel, setPanel]);
 
   return (
     <div className="app-shell">

@@ -19,16 +19,28 @@ export function AuthModal() {
     setError(null);
     setBusy(true);
     try {
-      const data =
-        mode === 'login'
-          ? await login(email, password)
-          : await register(
-              name,
-              email,
-              password,
-              app.getCloudSnapshot(),
-            );
-      app.applyCloudData(data as Record<string, unknown>);
+      let data: Record<string, unknown>;
+      if (mode === 'login') {
+        data = (await login(email.trim(), password)) as Record<string, unknown>;
+      } else {
+        // Avoid uploading huge custom media in the register payload;
+        // CloudSync will persist full settings right after sign-in.
+        const snapshot = app.getCloudSnapshot() as Record<string, unknown>;
+        const theme = snapshot.theme as Record<string, unknown> | undefined;
+        const slim = {
+          ...snapshot,
+          theme: theme
+            ? { ...theme, customBackground: null }
+            : theme,
+        };
+        data = (await register(
+          name.trim(),
+          email.trim(),
+          password,
+          slim,
+        )) as Record<string, unknown>;
+      }
+      app.applyCloudData(data);
       app.setToast(mode === 'login' ? 'Welcome back' : 'Account created');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');

@@ -35,6 +35,8 @@ Fill in `.env.local`:
 | `MONGODB_DB_NAME` | Database name (e.g. `pomo`) |
 | `JWT_SECRET` | Long random string for session tokens |
 
+Login/signup need a **reachable** MongoDB. In Atlas: create/resume a cluster → Database → Connect → Drivers → copy the URI. Also allow your IP (or `0.0.0.0/0` for testing) under Network Access.
+
 ```bash
 npm run dev
 ```

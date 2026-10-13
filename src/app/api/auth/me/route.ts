@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { jsonError } from '@/lib/apiErrors';
 import { getUserIdFromRequest } from '@/lib/auth';
 import { connectDB } from '@/lib/db';
 import { publicUser, User } from '@/lib/models/User';
@@ -20,10 +21,6 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ user: publicUser(user), data: user.data });
   } catch (err) {
-    console.error(err);
-    return NextResponse.json(
-      { error: 'Could not load profile.' },
-      { status: 500 },
-    );
+    return jsonError(err, 'Could not load profile.');
   }
 }

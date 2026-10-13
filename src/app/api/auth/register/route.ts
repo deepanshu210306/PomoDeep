@@ -1,9 +1,10 @@
 import bcrypt from 'bcryptjs';
 import { NextResponse } from 'next/server';
+import { jsonError } from '@/lib/apiErrors';
 import { signToken } from '@/lib/auth';
 import { connectDB } from '@/lib/db';
 import { publicUser, User } from '@/lib/models/User';
-import { SanitizeError, sanitizeCustomMedia } from '@/lib/sanitize';
+import { sanitizeCustomMedia } from '@/lib/sanitize';
 
 export const runtime = 'nodejs';
 
@@ -55,13 +56,6 @@ export async function POST(req: Request) {
       { status: 201 },
     );
   } catch (err) {
-    if (err instanceof SanitizeError) {
-      return NextResponse.json({ error: err.message }, { status: 400 });
-    }
-    console.error(err);
-    return NextResponse.json(
-      { error: 'Could not create account.' },
-      { status: 500 },
-    );
+    return jsonError(err, 'Could not create account.');
   }
 }

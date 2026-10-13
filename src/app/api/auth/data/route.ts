@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { jsonError } from '@/lib/apiErrors';
 import { getUserIdFromRequest } from '@/lib/auth';
 import { connectDB } from '@/lib/db';
 import { User } from '@/lib/models/User';
-import { SanitizeError, sanitizeCustomMedia } from '@/lib/sanitize';
+import { sanitizeCustomMedia } from '@/lib/sanitize';
 
 export const runtime = 'nodejs';
 
@@ -36,13 +37,6 @@ export async function PUT(req: NextRequest) {
 
     return NextResponse.json({ ok: true, data: user.data });
   } catch (err) {
-    if (err instanceof SanitizeError) {
-      return NextResponse.json({ error: err.message }, { status: 400 });
-    }
-    console.error(err);
-    return NextResponse.json(
-      { error: 'Could not save settings.' },
-      { status: 500 },
-    );
+    return jsonError(err, 'Could not save settings.');
   }
 }

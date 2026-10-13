@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { NextResponse } from 'next/server';
+import { jsonError } from '@/lib/apiErrors';
 import { signToken } from '@/lib/auth';
 import { connectDB } from '@/lib/db';
 import { publicUser, User } from '@/lib/models/User';
@@ -37,7 +38,6 @@ export async function POST(req: Request) {
       data: user.data,
     });
   } catch (err) {
-    console.error(err);
-    return NextResponse.json({ error: 'Could not sign in.' }, { status: 500 });
+    return jsonError(err, 'Could not sign in.');
   }
 }
