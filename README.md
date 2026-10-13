@@ -1,40 +1,50 @@
-# Pomodoro Timer
+# PomoDeep
 
-Desktop-first Pomodoro productivity app with an independent study stopwatch, tasks, lofi music, ambient effects, and local persistence.
+Pomodoro + study stopwatch app with tasks, themes, ambient effects, and MongoDB cloud sync.
 
-## Run
+Built with **Next.js** — UI and API in one deploy (Vercel-ready).
 
-Terminal 1 — API + MongoDB:
-
-```bash
-cd server
-npm install
-# Edit .env if needed (MONGODB_URI, JWT_SECRET)
-npm run dev
-```
-
-Terminal 2 — frontend:
+## Local development
 
 ```bash
 npm install
+# Copy secrets
+cp .env.example .env.local
+# Fill MONGODB_URI, MONGODB_DB_NAME, JWT_SECRET
+
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173). Sign in from **Settings → Account** so themes, timer settings, and tasks sync to MongoDB and reload on open.
+Open [http://localhost:3000](http://localhost:3000).
 
-Set `MONGODB_URI` (and optional `MONGODB_DB_NAME`) in `server/.env` — same Atlas cluster as DataSense works; Pomo uses the `pomo` database by default.
+## Deploy on Vercel (single project)
 
-## Features
+1. Push this repo to GitHub.
+2. Import the project on [vercel.com](https://vercel.com).
+3. Framework: **Next.js** (auto-detected).
+4. Add environment variables:
+   - `MONGODB_URI` — Atlas connection string
+   - `MONGODB_DB_NAME` — e.g. `pomo`
+   - `JWT_SECRET` — long random string
+5. Deploy.
 
-- Pomodoro countdown (focus / short break / long break) with timestamp-based timing
-- Independent study stopwatch with daily totals
-- Tasks with statuses, search, filter/sort, focus task, and per-task time tracking
-- Settings: language, backgrounds, accent colors, ambient effects, durations
-- Account login — settings and tasks saved to MongoDB and restored on open
-- Lofi track list with ambient sound toggle and volume
-- Streak and daily challenge panels
-- Local fallback via `localStorage`
+The frontend and `/api/*` auth routes ship together. No separate backend host needed.
 
-## Stack
+> Note: Vercel Hobby has a ~4.5 MB request body limit. Custom backgrounds up to 5 MB may need a smaller file or a paid plan.
 
-Vite · React · TypeScript · Express · MongoDB · Lucide icons · Space Grotesk
+## What syncs to MongoDB
+
+When signed in:
+
+- Study stopwatch history (daily totals)
+- Tasks
+- Settings / theme
+- Custom image or video background (≤ 5 MB)
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Next.js dev server |
+| `npm run build` | Production build |
+| `npm start` | Run production build |

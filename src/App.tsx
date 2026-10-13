@@ -1,3 +1,5 @@
+'use client';
+
 import { AuthProvider } from './auth/AuthContext';
 import { AmbientEffects } from './components/AmbientEffects';
 import { AudioPlayer } from './components/AudioPlayer';

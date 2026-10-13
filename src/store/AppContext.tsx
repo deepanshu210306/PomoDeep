@@ -341,7 +341,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       // ignore
     }
     if (settings.notifications && 'Notification' in window && Notification.permission === 'granted') {
-      new Notification('Pomodoro', { body: 'Session complete!', silent: true });
+      new Notification('PomoDeep', { body: 'Session complete!', silent: true });
     }
   }, [settings.alarm, settings.notifications]);
 

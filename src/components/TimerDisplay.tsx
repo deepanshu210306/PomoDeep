@@ -41,7 +41,7 @@ export function TimerDisplay() {
   return (
     <div className={`main-stage ${view === 'study' ? 'study-stage' : ''}`}>
       <div className="timer-header">
-        <div className="brand">Pomodoro Timer</div>
+        <div className="brand">PomoDeep</div>
         <div className="view-toggle" role="tablist" aria-label="Timer mode">
           <button
             type="button"
