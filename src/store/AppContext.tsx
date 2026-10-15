@@ -8,8 +8,12 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { ACCENTS, DEFAULT_DURATIONS } from '../config/theme';
-import { LOFI_TRACKS } from '../config/tracks';
+import {
+  ACCENTS,
+  DEFAULT_DURATIONS,
+  isBackgroundKey,
+} from '../config/theme';
+import { AMBIENT_TRACKS } from '../config/tracks';
 import {
   clearCustomMedia,
   CUSTOM_MEDIA_IDB_MARKER,
@@ -106,7 +110,7 @@ const defaultSettings: SettingsState = {
   alarm: true,
   ambientEnabled: false,
   ambientVolume: 0.5,
-  selectedTrackId: '1',
+  selectedTrackId: 'kyoto-rain',
   notifications: false,
   dailyGoalMinutes: 120,
 };
@@ -162,7 +166,13 @@ function rollDayIfNeeded<T extends { dayKey?: string; countsDay?: string }>(
 }
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<ThemeState>(() => loadJSON('theme', defaultTheme));
+  const [theme, setTheme] = useState<ThemeState>(() => {
+    const loaded = loadJSON('theme', defaultTheme);
+    if (!isBackgroundKey(loaded.background)) {
+      return { ...loaded, background: defaultTheme.background };
+    }
+    return loaded;
+  });
   const [settings, setSettings] = useState<SettingsState>(() =>
     loadJSON('settings', defaultSettings),
   );
@@ -698,8 +708,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   // Keep track list valid
   useEffect(() => {
-    if (!LOFI_TRACKS.some((t) => t.id === settings.selectedTrackId)) {
-      updateSettings({ selectedTrackId: LOFI_TRACKS[0].id });
+    if (!AMBIENT_TRACKS.some((t) => t.id === settings.selectedTrackId)) {
+      updateSettings({ selectedTrackId: AMBIENT_TRACKS[0].id });
     }
   }, [settings.selectedTrackId, updateSettings]);
 

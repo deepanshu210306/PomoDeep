@@ -13,7 +13,7 @@ const baseItems: { id: PanelId; label: string; icon: typeof ListTodo }[] = [
   { id: 'tasks', label: 'Tasks', icon: ListTodo },
   { id: 'achievements', label: "Today's challenge", icon: Trophy },
   { id: 'streak', label: 'Focus streak', icon: Flame },
-  { id: 'music', label: 'Music', icon: Music2 },
+  { id: 'music', label: 'Ambient music', icon: Music2 },
   { id: 'settings', label: 'Settings', icon: Settings },
 ];
 

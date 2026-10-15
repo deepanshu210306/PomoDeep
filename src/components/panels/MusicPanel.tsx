@@ -1,26 +1,26 @@
 import { Music2 } from 'lucide-react';
-import { LOFI_TRACKS } from '../../config/tracks';
+import { AMBIENT_TRACKS } from '../../config/tracks';
 import { useApp } from '../../store/AppContext';
 
 export function MusicPanel() {
   const { settings, updateSettings } = useApp();
 
   return (
-    <aside className="panel" aria-label="Music">
+    <aside className="panel" aria-label="Ambient music">
       <div className="panel-scroll">
         <p className="section-label">Sound</p>
 
         <div className="setting-row align-center">
           <div className="setting-label">
             <Music2 />
-            Ambient sound
+            Ambient music
           </div>
           <button
             type="button"
             className={`toggle ${settings.ambientEnabled ? 'on' : ''}`}
             role="switch"
             aria-checked={settings.ambientEnabled}
-            aria-label="Ambient sound"
+            aria-label="Ambient music"
             onClick={() =>
               updateSettings({ ambientEnabled: !settings.ambientEnabled })
             }
@@ -47,10 +47,10 @@ export function MusicPanel() {
         )}
 
         <div className="section-divider" />
-        <p className="section-label">Lofi tracks</p>
+        <p className="section-label">Tracks</p>
 
-        <div className="track-list" role="listbox" aria-label="Lofi tracks">
-          {LOFI_TRACKS.map((track, index) => {
+        <div className="track-list" role="listbox" aria-label="Ambient music">
+          {AMBIENT_TRACKS.map((track, index) => {
             const active = settings.selectedTrackId === track.id;
             const playing = active && settings.ambientEnabled;
             return (

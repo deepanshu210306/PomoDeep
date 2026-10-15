@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { LOFI_TRACKS } from '../config/tracks';
+import { AMBIENT_TRACKS } from '../config/tracks';
 import { useApp } from '../store/AppContext';
 
 /** Keeps a single audio element alive across panel navigation. */
@@ -10,7 +10,8 @@ export function AudioPlayer() {
   const [error, setError] = useState<string | null>(null);
 
   const track =
-    LOFI_TRACKS.find((t) => t.id === settings.selectedTrackId) ?? LOFI_TRACKS[0];
+    AMBIENT_TRACKS.find((t) => t.id === settings.selectedTrackId) ??
+    AMBIENT_TRACKS[0];
 
   useEffect(() => {
     const audio = new Audio();

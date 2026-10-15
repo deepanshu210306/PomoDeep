@@ -28,16 +28,18 @@ import {
 } from '../../utils/customMedia';
 
 const BACKGROUNDS: BackgroundKey[] = [
-  'fantasy',
   'pastel',
   'lofi',
   'cyberpunk',
-  'samurai',
-  'pika',
-  'aurora',
   'ocean',
-  'neon',
-  'cafe',
+  'cat-playing',
+  'cat-twin',
+  'cute-cat',
+  'study-cat',
+  'mount-abu',
+  'samurai',
+  'samurai-moon',
+  'samurai-town',
   'custom',
 ];
 

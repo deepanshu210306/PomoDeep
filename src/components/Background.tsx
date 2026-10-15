@@ -17,7 +17,7 @@ export function Background() {
       ? customIsVideo
         ? undefined
         : custom || undefined
-      : preset?.image;
+      : preset?.image || undefined;
 
   const videoSrc =
     theme.background === 'custom'
